@@ -1,5 +1,6 @@
 package com.example.thamirysrsantos.todo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,16 @@ public class MainActivity extends AppCompatActivity {
         TextView tvResultado = findViewById(R.id.tvResultado);
 
         String nome = edNome.getText().toString();
-        String resultado = crud.insereDado(nome);
-        tvResultado.setText(resultado);
+
+        if (nome.equals("")){
+        tvResultado.setText("Não válido!");
+        }
+        else {
+            String resultado = crud.insereDado(nome);
+            tvResultado.setText(resultado);
+
+            Intent intent = new Intent(this, ListaActivity.class);
+            startActivity(intent);
+        }
     }
 }
