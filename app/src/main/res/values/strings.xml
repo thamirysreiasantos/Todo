@@ -2,4 +2,7 @@
     <string name="app_name">Todo - "A fazer"</string>
     <string name="dica_nome">Nome da tarefa</string>
     <string name="btn_cadastrar">cadastrar</string>
+    <string name="btn_listar">listar</string>
+    <string name="tituto_atualiza">Atualiza</string>
+    <string name="btn_salvar">salvar</string>
 </resources>

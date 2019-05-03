@@ -12,17 +12,17 @@ public class ControlaBanco {
     private SQLiteDatabase db;
 
     //Declaração do objeto "banco" do tipo "CriaBanco". Obejto privado -> só pode ser acessado pela classe atual
-    private  CriaBanco banco;
+    private CriaBanco banco;
 
-   //Construtor da classe. Recebe como parâmetro o contexto. Publico -> pose ser acessado fora da classe atual
-    public  ControlaBanco(Context context) {
+    //Construtor da classe. Recebe como parâmetro o contexto. Publico -> pose ser acessado fora da classe atual
+    public ControlaBanco(Context context) {
         banco = new CriaBanco(context);
     }
 
     //Método do tipo String (deve ser retornado um valor em String)
     //Público -> pode ser acsseado fora da classe
     //Recebe como parâmentro uma variável do tipo String
-    public  String insereDado(String nome) {
+    public String insereDado(String nome) {
 
         //Declara o objeto tipo "valores" do tipo "ContentValues"
         //Padrão de nome para objeto é começar com a primeira letra minúscula
@@ -37,7 +37,7 @@ public class ControlaBanco {
         db = banco.getWritableDatabase();
 
         //Instancia o objeto "valores" com o construtor de classe "ContentValues"
-        valores =  new ContentValues();
+        valores = new ContentValues();
 
         //put é um método que recebe como parâmetro duas Strings
         // Primeira String é o nome da coluna no banco de dados
@@ -57,24 +57,23 @@ public class ControlaBanco {
 
         if (resultado == -1) {
             return "Erro ao inserir dado";
-        }
-        else {
+        } else {
             return "Dado inserido com sucesso";
         }
     }
 
     //Declarando um método público do tipo Cursor que não recebe nenhum parâmetro
     public Cursor carregaDados() {
-        //Objeto "cursor" di tipo "Cursor"
+        //Objeto "cursor" do tipo "Cursor"
         Cursor cursor;
         //Um array de Strings com o nome "campos" que recebe os valores entre as chaves
-        String [] campos = {"_id", "nome"};
+        String[] campos = {"_id", "nome"};
         //getReadableDataBase é um método do objeto "banco" que retorna um valor para o objeto "db"
         //Esse método diz que o banco estará disponivel para leitura
         db = banco.getReadableDatabase();
         //query é um método do objeto db que recebe como parâmetro o que está entre os parâmetros
         //o valor retornado do método query está inserido no objeto cursor
-        cursor = db.query("tarefa", campos, null, null, null, null,null);
+        cursor = db.query("tarefa", campos, null, null, null, null, null);
 
         //Compara se ocursor não é nulo(vázio)
         if (cursor != null) {
@@ -83,7 +82,29 @@ public class ControlaBanco {
         }
         //método fechar
         db.close();
-       //retorna o objeto cursor
+        //retorna ao objeto cursor
         return cursor;
     }
+
+    public void deletaDado(int id) {
+        String where = "_id = " + id;
+        db = banco.getReadableDatabase();
+        db.delete("tarefa", where, null);
+        db.close();
+    }
+
+    public Cursor carregaDadoPorId(int id) {
+        Cursor cursor;
+        String[] campos = {"_id", "nome"};
+        String where = "_id = " + id;
+        db = banco.getReadableDatabase();
+        cursor = db.query("tabela", campos, where, null, null, null, null);
+
+        if (cursor!=null) {
+            cursor.moveToFirst();
+        }
+        db.close();
+        return cursor;
+    }
+
 }
