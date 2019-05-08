@@ -98,7 +98,7 @@ public class ControlaBanco {
         String[] campos = {"_id", "nome"};
         String where = "_id = " + id;
         db = banco.getReadableDatabase();
-        cursor = db.query("tabela", campos, where, null, null, null, null);
+        cursor = db.query("tarefa", campos, where, null, null, null, null);
 
         if (cursor!=null) {
             cursor.moveToFirst();
@@ -107,4 +107,16 @@ public class ControlaBanco {
         return cursor;
     }
 
+    public void alteraDado(int id, String nome) {
+        ContentValues valores;
+        String where;
+
+        db = banco.getWritableDatabase();
+        where = "_id=" + id;
+        valores = new ContentValues();
+        valores.put("nome", nome);
+
+        db.update("tarefa", valores, where, null);
+        db.close();
+    }
 }
